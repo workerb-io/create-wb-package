@@ -1,6 +1,6 @@
 {
   "name": "create-workerb-package",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Automatically generates the boilerplate code for new workerb package",
   "files": [
     "./bin/index.js",
@@ -11,6 +11,7 @@
     "create-workerb-package": "./bin/index.js"
   },
   "dependencies": {
+    "cross-spawn": "^7.0.3",
     "inquirer": "^7.3.3"
   },
   "devDependencies": {},
@@ -20,6 +21,6 @@
   "keywords": [
     "workerb"
   ],
-  "author": "puneet",
+  "author": "workerb",
   "license": "ISC"
 }
