@@ -1,0 +1,26 @@
+{
+  "name": "create-workerb-package",
+  "version": "1.1.2",
+  "description": "Automatically generates the boilerplate code for new workerb package",
+  "files": [
+    "./bin/index.js",
+    "README.md",
+    "templates"
+  ],
+  "bin": {
+    "create-workerb-package": "./bin/index.js"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.3",
+    "inquirer": "^7.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "workerb"
+  ],
+  "author": "workerb",
+  "license": "ISC"
+}
