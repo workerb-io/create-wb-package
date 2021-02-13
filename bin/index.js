@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 const inquirer = require('inquirer');
 const fs = require('fs');
+const path = require('path');
 const spawn = require('cross-spawn');
 
 const CURR_DIR = process.cwd();
+const UTF8 = "utf8";
+const PACKAGE_JSON_FILE = "package.json";
+const WEBPACK_CONFIG_FILE = "webpack.config.js";
+const GITIGNORE = "gitignore";
+
+var PACKAGE_NAME = '';
+var PACKAGE_DESCRIPTION = '';
 
 /**
  * Input the package-name from user and create the package directory with that name
@@ -17,6 +25,15 @@ const QUESTIONS = [
       if (/^([A-Za-z\-\_\d])+$/.test(input)) return true;
       else return 'Package name may only include letters, numbers, underscores and hashes.';
     }
+  },
+  {
+    name: 'package-description',
+    type: 'input',
+    message: 'Package description:',
+    validate: function (input) {
+      if (/^([A-Za-z\-\_\ \d])+$/.test(input)) return true;
+      else return 'Package description may only include letters, numbers, underscores and hashes.';
+    }
   }
 ];
 
@@ -27,13 +44,14 @@ const QUESTIONS = [
  */
 inquirer.prompt(QUESTIONS)
   .then(answers => {
-    const packageName = answers['package-name'];
+    PACKAGE_NAME = answers['package-name'];
+    PACKAGE_DESCRIPTION = answers['package-description'];
     const templatePath = `${__dirname}/../templates`;
-    const packagePath = `${CURR_DIR}/${packageName}`;
+    const packagePath = `${CURR_DIR}/${PACKAGE_NAME}`;
   
     fs.mkdirSync(packagePath);
 
-    createDirectoryContents(templatePath, packageName);
+    createDirectoryContents(templatePath, PACKAGE_NAME);
 
     installPackages(packagePath);
 });
@@ -58,10 +76,19 @@ function createDirectoryContents (templatePath, newProjectPath) {
       const stats = fs.statSync(origFilePath);
   
       if (stats.isFile()) {
-        const contents = fs.readFileSync(origFilePath, 'utf8');
-        
+        let contents = fs.readFileSync(origFilePath, UTF8);
+        // update package name and description in package.json and webpack.config.js file
+        if(file === PACKAGE_JSON_FILE || file === WEBPACK_CONFIG_FILE) {
+          contents = contents.replace(/package_name/g, PACKAGE_NAME);
+          contents = contents.replace(/package_description/g, PACKAGE_DESCRIPTION);
+        }
+        // Explicitly updating the name of gitignore is neccesary as it was
+        // not generating after publishing the code in npmjs
+        if(file === GITIGNORE) {
+          file = ".gitignore";
+        }
         const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
-        fs.writeFileSync(writePath, contents, 'utf8');
+        fs.writeFileSync(writePath, contents, UTF8);
       } else if (stats.isDirectory()) {
         fs.mkdirSync(`${CURR_DIR}/${newProjectPath}/${file}`);
         

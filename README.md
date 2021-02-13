@@ -17,13 +17,13 @@ After Installing create-workerb-package utility you can start building your pack
 
 _You can use `npx` as_
 
-`npx create-workerb-package <package-name>`
+`npx create-workerb-package`
 
-After running this command the utility will prompt for new package name.
+After running this command the utility will prompt for new package name and description.
 
-![Package name:](https://user-images.githubusercontent.com/12980740/107119637-f0e3ef00-68ae-11eb-93f9-fe76b13b8fc8.png)
+![Package name & description:](https://user-images.githubusercontent.com/12980740/107848316-7ff58780-6e18-11eb-8dce-8b7ebac3a8b4.png)
 
-Enter the package name and then
+Enter the package name and package description and then run the following commands:
 
 cd `<package-name>`
 
