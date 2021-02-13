@@ -2,7 +2,7 @@
 const path = require('path')
 const helpers = require('./webpack.helpers.js');
 const WBMetaJsonGenerator = require("wb-packager-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const fileSystem = helpers.generateFS(__dirname + '/src/actions', "workerB")
 
@@ -67,30 +67,34 @@ module.exports = {
             {
                 test: /\.js?$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                query: { "presets": ["@babel/preset-env"] }
+                use: {
+                  loader: 'babel-loader',
+                  options: {
+                    presets: ["@babel/preset-env"]
+                  }
+                }
             }
         ]
     },
     plugins: [
         new WBMetaJsonGenerator({
             environment,
-            package: "<*****package name*****>",
-            packageDescription: "<*****add short package description*****>",
+            package: "package_name",
+            packageDescription: "package_description",
             packageIcon: "https://raw.githubusercontent.com/workerb-io/wb-github/master/src/actions/logo.png",
             folderIcon: "https://raw.githubusercontent.com/workerb-io/wb-github/master/src/actions/logo.png",
             folderDescriptionList
         })
     ],
     optimization: {
-        minimizer: [
-          new UglifyJsPlugin({
-            uglifyOptions: {
-              output: {
-                comments: /(@description|@name|@ignore)/i,
-              },
-            }
-          }),
-        ],
-      }
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            format: {
+              comments: /(@description|@name|@ignore)/i,
+            },
+          }
+        }),
+      ],
+    }
 }
