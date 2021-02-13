@@ -8,6 +8,7 @@ const CURR_DIR = process.cwd();
 const UTF8 = "utf8";
 const PACKAGE_JSON_FILE = "package.json";
 const WEBPACK_CONFIG_FILE = "webpack.config.js";
+const GITIGNORE = "gitignore";
 
 var PACKAGE_NAME = '';
 var PACKAGE_DESCRIPTION = '';
@@ -75,12 +76,16 @@ function createDirectoryContents (templatePath, newProjectPath) {
       const stats = fs.statSync(origFilePath);
   
       if (stats.isFile()) {
-        const fileName = path.basename(origFilePath);
         let contents = fs.readFileSync(origFilePath, UTF8);
         // update package name and description in package.json and webpack.config.js file
-        if(fileName === PACKAGE_JSON_FILE || fileName === WEBPACK_CONFIG_FILE) {
+        if(file === PACKAGE_JSON_FILE || file === WEBPACK_CONFIG_FILE) {
           contents = contents.replace(/package_name/g, PACKAGE_NAME);
           contents = contents.replace(/package_description/g, PACKAGE_DESCRIPTION);
+        }
+        // Explicitly updating the name of gitignore is neccesary as it was
+        // not generating after publishing the code in npmjs
+        if(file === GITIGNORE) {
+          file = ".gitignore";
         }
         const writePath = `${CURR_DIR}/${newProjectPath}/${file}`;
         fs.writeFileSync(writePath, contents, UTF8);
