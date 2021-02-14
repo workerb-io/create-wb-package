@@ -23,9 +23,5 @@
 		"webpack-cli": "^3.3.11",
 		"webpack-dev-server": "^3.11.0"
 	},
-	"dependencies": {
-		"@babel/core": "^7.10.2",
-		"babel-register": "^6.26.0",
-		"fs": "^0.0.1-security"		
-	}
+	"dependencies": {}
 }

@@ -33,7 +33,7 @@ const entryPaths = helpers.getFiles(entryFiles, ".ts").map(file => file.replace(
  */
 
 const folderDescriptionList = [
-  {path: "/component", description: "List all the inner components and actions"}
+  {path: "/components", description: "List all the inner components and actions"}
 ]
 
 /**
