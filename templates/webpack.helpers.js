@@ -50,8 +50,9 @@ const getFiles = ( files = [], ext) => {
         if( index > 0 && index < (splittedpath.length - 1)){
             return path
         }
-        })
-        if( fileStr.search(ext) > 0){
+        });
+        const regex = new RegExp(`\\${ext}`, "g");
+        if( fileStr.search(regex) > 0){
             return path + fileStr
         } else {
             return ""
